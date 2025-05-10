@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Web Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f8ff;
+    }
+
+    /* Button & Hover */
+    #magicBtn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #magicBtn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Tabs */
+    .tab {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #eee;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    .tab.active {
+      background: #ccc;
+    }
+    .tab-content {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ccc;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Gallery */
+    .gallery img {
+      width: 100px;
+      margin: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Form Feedback */
+    .feedback {
+      font-size: 0.9em;
+      color: red;
+    }
+
+    input.valid {
+      border-color: green;
+    }
+
+    input.invalid {
+      border-color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎈 Interactive Web Features</h1>
+
+  <!-- Button Click + Double Click -->
+  <button id="magicBtn">Click Me!</button>
+  <p id="btnMsg"></p>
+
+  <!-- Image Gallery -->
+  <h2>📸 Gallery</h2>
+  <div class="gallery">
+    <img src="https://shorturl.at/253hn" />
+    <img src="https://shorturl.at/2crNC" />
+    <img src="https://shorturl.at/6yfNx" />
+  </div>
+
+  <!-- Tabs -->
+  <h2>📚 Tabs</h2>
+  <div>
+    <div class="tab active" data-tab="tab1">Tab 1</div>
+    <div class="tab" data-tab="tab2">Tab 2</div>
+  </div>
+  <div id="tab1" class="tab-content active">Content for Tab 1</div>
+  <div id="tab2" class="tab-content">Content for Tab 2</div>
+
+  <!-- Form Validation -->
+  <h2>📋 Form</h2>
+  <form id="myForm" novalidate>
+    <label>Email: <input type="email" id="email" required /></label>
+    <span id="emailFeedback" class="feedback"></span><br /><br />
+    
+    <label>Password: <input type="password" id="password" required minlength="8" /></label>
+    <span id="passwordFeedback" class="feedback"></span><br /><br />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Button click + double click
+    const btn = document.getElementById("magicBtn");
+    const msg = document.getElementById("btnMsg");
+
+    btn.addEventListener("click", () => {
+      msg.textContent = "Button clicked!";
+    });
+
+    btn.addEventListener("dblclick", () => {
+      msg.textContent = "🎉 Secret action triggered on double-click!";
+    });
+
+    // Keypress Detection
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "h") {
+        alert("You pressed the 'h' key!");
+      }
+    });
+
+    // Tabs
+    const tabs = document.querySelectorAll(".tab");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.classList.remove("active"));
+        tabContents.forEach((c) => c.classList.remove("active"));
+
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+      });
+    });
+
+    // Real-time form validation
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const emailFeedback = document.getElementById("emailFeedback");
+    const passwordFeedback = document.getElementById("passwordFeedback");
+
+    emailInput.addEventListener("input", () => {
+      const email = emailInput.value;
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        emailInput.classList.add("invalid");
+        emailInput.classList.remove("valid");
+        emailFeedback.textContent = "Invalid email format.";
+      } else {
+        emailInput.classList.add("valid");
+        emailInput.classList.remove("invalid");
+        emailFeedback.textContent = "";
+      }
+    });
+
+    passwordInput.addEventListener("input", () => {
+      if (passwordInput.value.length < 8) {
+        passwordInput.classList.add("invalid");
+        passwordInput.classList.remove("valid");
+        passwordFeedback.textContent = "Password must be at least 8 characters.";
+      } else {
+        passwordInput.classList.add("valid");
+        passwordInput.classList.remove("invalid");
+        passwordFeedback.textContent = "";
+      }
+    });
+
+    // Form submit handler
+    document.getElementById("myForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Form submitted successfully!");
+    });
+  </script>
+
+</body>
+</html>
